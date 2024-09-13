@@ -124,6 +124,7 @@ function checkWinner(boardArr, playerTurn, circleColumn, circleRow) {
         playerTurn === player1.number ? player1.score+= 1 : player2.score++;
         console.log(player1.score);
         getResult();
+        gameReset();
     }
 }
 function checkVertical(boardArr, playerTurn, circleColumn, circleRow) {
@@ -191,4 +192,13 @@ function checkDiagonal(boardArr, playerTurn) {
 function getResult() {
     player1Score.textContent = player1.score;
     player2Score.textContent = player2.score;
+}
+function gameReset() {
+    board.boardArr = Array.from({ length: rows }, () =>
+        Array(cols).fill(null)
+    );
+    document.querySelectorAll(".cell").forEach((cell) => {
+        cell.style.backgroundColor = "white";
+        cell.classList.remove("empty");
+    });
 }
