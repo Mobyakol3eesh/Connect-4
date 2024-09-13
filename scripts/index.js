@@ -1,6 +1,10 @@
 class Player {
     number;
     score;
+    constructor(number, score) {
+        this.number = number;
+        this.score = score;
+    }
 }
 class Turn {
     player;
@@ -45,7 +49,8 @@ class Board {
 const rows = 6;
 const cols = 7;
 const gameBoard = document.querySelector(".game-board");
-
+const player1Score = document.querySelector("#player-one-score");
+const player2Score = document.querySelector("#player-two-score");
 const player1 = new Player(1, 0);
 const player2 = new Player(2, 0);
 const turn = new Turn();
@@ -108,14 +113,17 @@ function insertCircle(cell, playerTurn) {
     }
 }
 
-function checkWinner(boardArr, playerTurn ,circleColumn, circleRow) {
+function checkWinner(boardArr, playerTurn, circleColumn, circleRow) {
     console.log(playerTurn);
     if (
         checkHorizontal(boardArr, playerTurn, circleColumn, circleRow) ||
         checkVertical(boardArr, playerTurn, circleColumn, circleRow) ||
-        checkDiagonal(boardArr, playerTurn, circleColumn, circleRow)
+        checkDiagonal(boardArr, playerTurn)
     ) {
-        console.log(`Player ${playerTurn} wins!`);
+        window.alert(`Player ${playerTurn} wins!`);
+        playerTurn === player1.number ? player1.score+= 1 : player2.score++;
+        console.log(player1.score);
+        getResult();
     }
 }
 function checkVertical(boardArr, playerTurn, circleColumn, circleRow) {
@@ -151,26 +159,36 @@ function checkHorizontal(boardArr, playerTurn, circleColumn, circleRow) {
     }
     return false;
 }
-function checkDiagonal(
-    boardArr,
-    playerTurn,
-    circleColumn,
-    circleRow
-) {
-    if (boardArr[circleRow][circleColumn] instanceof Circle) {
-        const CircleType = playerTurn === 1 ? YellowCircle : RedCircle;
-        for (let i = 0; i <= boardArr.length - 4; i++) {
-            for (let j = 0; j <= boardArr[0].length - 4; j++) {
-                if (
-                    boardArr[i][j] instanceof CircleType &&
-                    boardArr[i + 1][j + 1] instanceof CircleType &&
-                    boardArr[i + 2][j + 2] instanceof CircleType &&
-                    boardArr[i + 3][j + 3] instanceof CircleType
-                ) {
-                    return true;
-                }
+function checkDiagonal(boardArr, playerTurn) {
+    const CircleType = playerTurn === 1 ? YellowCircle : RedCircle;
+    for (let i = 0; i <= boardArr.length - 4; i++) {
+        for (let j = 0; j <= boardArr[i].length - 4; j++) {
+            if (
+                boardArr[i][j] instanceof CircleType &&
+                boardArr[i + 1][j + 1] instanceof CircleType &&
+                boardArr[i + 2][j + 2] instanceof CircleType &&
+                boardArr[i + 3][j + 3] instanceof CircleType
+            ) {
+                return true;
             }
         }
     }
+    for (let i = 3; i < boardArr.length; i++) {
+        for (let j = 0; j <= boardArr[i].length - 4; j++) {
+            if (
+                boardArr[i][j] instanceof CircleType &&
+                boardArr[i - 1][j + 1] instanceof CircleType &&
+                boardArr[i - 2][j + 2] instanceof CircleType &&
+                boardArr[i - 3][j + 3] instanceof CircleType
+            ) {
+                return true;
+            }
+        }
+    }
+
     return false;
+}
+function getResult() {
+    player1Score.textContent = player1.score;
+    player2Score.textContent = player2.score;
 }
