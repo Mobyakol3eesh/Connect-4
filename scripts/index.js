@@ -6,6 +6,7 @@ class Turn {
     player;
     constructor() {
         this.player = Math.floor(Math.random() * 2) + 1;
+        console.log(this.player);
     }
     changePlayer() {
         this.player = this.player === 1 ? 2 : 1;
@@ -69,6 +70,7 @@ document.querySelectorAll(".cell").forEach((cell) => {
     cell.addEventListener("click", (e) => {
         const column = e.target.dataset.column;
         const playerTurn = turn.getTurn();
+        console.log(playerTurn);
         insertCircle(getLowestEmptyRow(column), playerTurn);
     });
 });
@@ -99,12 +101,15 @@ function insertCircle(cell, playerTurn) {
             cell.style.backgroundColor = circle.color;
             console.log(board.boardArr);
         }
+        console.log(playerTurn);
         checkWinner(board.boardArr, playerTurn, circleColumn, circleRow);
         turn.changePlayer();
+        console.log(playerTurn);
     }
 }
 
-function checkWinner(boardArr, circleColumn, playerTurn, circleRow) {
+function checkWinner(boardArr, playerTurn ,circleColumn, circleRow) {
+    console.log(playerTurn);
     if (
         checkHorizontal(boardArr, playerTurn, circleColumn, circleRow) ||
         checkVertical(boardArr, playerTurn, circleColumn, circleRow) ||
