@@ -105,53 +105,67 @@ function insertCircle(cell, playerTurn) {
 }
 
 function checkWinner(boardArr, circleColumn, playerTurn, circleRow) {
-    if (checkHorizontal(boardArr, playerTurn, circleColumn, circleRow))
-        //     checkVertical(boardArr,circleColumn,circleRow) ||
-        //     checkDiagonal(boardArr,circleColumn,circleRow)
-        // ) 
-{}
+    if (
+        checkHorizontal(boardArr, playerTurn, circleColumn, circleRow) ||
+        checkVertical(boardArr, playerTurn, circleColumn, circleRow) ||
+        checkDiagonal(boardArr, playerTurn, circleColumn, circleRow)
+    ) {
+        console.log(`Player ${playerTurn} wins!`);
+    }
 }
-
-function checkHorizontal(boardArr, playerTurn, circleColumn, circleRow) {
+function checkVertical(boardArr, playerTurn, circleColumn, circleRow) {
     if (boardArr[circleRow][circleColumn] instanceof Circle) {
         const CircleType = playerTurn === 1 ? YellowCircle : RedCircle;
-        for (let i = 0; i < boardArr[circleRow].length - 3; i++) {
+        for (let i = 0; i <= boardArr.length - 4; i++) {
             if (
-                boardArr[circleRow][i] instanceof CircleType &&
-                boardArr[circleRow][i] === boardArr[circleRow][i + 1] &&
-                boardArr[circleRow][i] === boardArr[circleRow][i + 2] &&
-                boardArr[circleRow][i] === boardArr[circleRow][i + 3]
+                boardArr[i][circleColumn] instanceof CircleType &&
+                boardArr[i + 1][circleColumn] instanceof CircleType &&
+                boardArr[i + 2][circleColumn] instanceof CircleType &&
+                boardArr[i + 3][circleColumn] instanceof CircleType
             ) {
-                console.log("Winner");
                 return true;
             }
         }
     }
     return false;
 }
-function checkVertical(boardArr) {
-    for (let i = 0; i < boardArr[0].length; i++) {
-        for (let j = 0; j < boardArr.length - 3; j++) {
+
+function checkHorizontal(boardArr, playerTurn, circleColumn, circleRow) {
+    if (boardArr[circleRow][circleColumn] instanceof Circle) {
+        const CircleType = playerTurn === 1 ? YellowCircle : RedCircle;
+        for (let i = 0; i <= boardArr[circleRow].length - 4; i++) {
             if (
-                boardArr[j][i] === boardArr[j + 1][i] &&
-                boardArr[j][i] === boardArr[j + 2][i] &&
-                boardArr[j][i] === boardArr[j + 3][i]
+                boardArr[circleRow][i] instanceof CircleType &&
+                boardArr[circleRow][i + 1] instanceof CircleType &&
+                boardArr[circleRow][i + 2] instanceof CircleType &&
+                boardArr[circleRow][i + 3] instanceof CircleType
             ) {
                 return true;
             }
         }
     }
+    return false;
 }
-function checkDiagonal(boardArr) {
-    boardArr.forEach((row) => {
-        for (let i = 0; i < row.length - 3; i++) {
-            if (
-                row[i] === row[i + 1] &&
-                row[i] === row[i + 2] &&
-                row[i] === row[i + 3]
-            ) {
-                return true;
+function checkDiagonal(
+    boardArr,
+    playerTurn,
+    circleColumn,
+    circleRow
+) {
+    if (boardArr[circleRow][circleColumn] instanceof Circle) {
+        const CircleType = playerTurn === 1 ? YellowCircle : RedCircle;
+        for (let i = 0; i <= boardArr.length - 4; i++) {
+            for (let j = 0; j <= boardArr[0].length - 4; j++) {
+                if (
+                    boardArr[i][j] instanceof CircleType &&
+                    boardArr[i + 1][j + 1] instanceof CircleType &&
+                    boardArr[i + 2][j + 2] instanceof CircleType &&
+                    boardArr[i + 3][j + 3] instanceof CircleType
+                ) {
+                    return true;
+                }
             }
         }
-    });
+    }
+    return false;
 }
