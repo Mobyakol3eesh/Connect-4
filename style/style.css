@@ -10,3 +10,22 @@ img {
 html {
     font-size: 16px;
 }
+.container .game-board {
+    justify-content: center;
+}
+.container .row .cells {
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+.container .row .cell {
+    height: 60px;
+    width: 60px;
+    cursor: pointer;
+    display: inline-block;
+    border : 1px solid black;
+    
+}
+.circle {
+    border-radius: 50%;
+    background-color: #f1c40f;
+}
